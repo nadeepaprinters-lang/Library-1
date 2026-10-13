@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaya.Library | Modern Digital Catalog & Archives</title>
+  <meta name="description" content="Discover, explore, and borrow from over 15,000 curated books in Fiction, Tech, and Science with Gaya.Library in Veyangoda, Sri Lanka.">
+
+  <!-- Google Fonts: Poppins, Playfair Display, Abhaya Libre, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Swiper.js CSS for 3D Coverflow Carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Tailwind CSS CDN with configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Poppins"', 'system-ui', 'sans-serif'],
+            serif: ['"Playfair Display"', '"Abhaya Libre"', 'Georgia', 'serif'],
+            sinhala: ['"Abhaya Libre"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            gold: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f'
+            },
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col transition-colors duration-300">
+
+  <!-- Floating Toast Notifications Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full px-4 sm:px-0"></div>
+
+  <!-- ========================================================================= -->
+  <!-- Navigation Bar (Glassmorphic Header) -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 w-full glass-nav border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo -->
+        <a href="#home" class="flex items-center gap-3 group focus:outline-none">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-amber-400 p-0.5 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+            <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center">
+              <i data-lucide="book-marked" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 group-hover:rotate-6 transition-transform"></i>
+            </div>
+          </div>
+          <div>
+            <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-indigo-700 dark:from-white dark:via-indigo-200 dark:to-indigo-400 bg-clip-text text-transparent">
+              Gaya<span class="text-amber-500">.</span>Library
+            </span>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wider uppercase -mt-1">Public Archives & Lab • Veyangoda</p>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+          <a href="#home" data-nav-link="home" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
+            Home
+          </a>
+          <a href="#catalog" data-nav-link="catalog" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
+            Catalog & Books
+          </a>
+          <a href="#about" data-nav-link="about" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
+            About Us
+          </a>
+          <a href="#contact" data-nav-link="contact" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:bg-slate-100 dark:hover:bg-slate-800">
+            Contact
+          </a>
+        </nav>
+
+        <!-- Right Header Action Controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Real-time Operating Status Badge (Hidden on mobile) -->
+          <div class="hidden xl:block" data-library-status>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Open Today
+            </span>
+          </div>
+
+          <!-- Dark / Light Mode Switcher -->
+          <button data-action="toggle-theme" title="Toggle Theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+            <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-indigo-600"></i>
+          </button>
+
+          <!-- Saved Favorites Button -->
+          <button onclick="App.openFavoritesDrawer()" title="View Saved Books" class="relative p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i data-lucide="heart" class="w-4 h-4"></i>
+            <span id="favs-count-badge" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Active Loans / Bag Button -->
+          <button onclick="App.openLoansDrawer()" class="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/80 text-xs font-semibold transition-colors">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">My Loans</span>
+            <span id="loans-count-badge" class="hidden px-1.5 py-0.2 rounded-full bg-indigo-600 text-white text-[10px] font-bold">0</span>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobile-menu-toggle" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle navigation menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Slide-over Drawer Navigation -->
+  <div id="mobile-menu-overlay" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+  <aside id="mobile-menu-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 bg-white dark:bg-slate-900 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col justify-between p-6">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
+            <i data-lucide="book-marked" class="w-4 h-4"></i>
+          </div>
+          <span class="font-bold text-slate-900 dark:text-white">Gaya.Library</span>
+        </div>
+        <button id="mobile-menu-close" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-2 mt-6">
+        <a href="#home" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="home" class="w-4 h-4 text-indigo-600"></i> Home
+        </a>
+        <a href="#catalog" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="library" class="w-4 h-4 text-indigo-600"></i> Book Catalog
+        </a>
+        <a href="#about" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i> About Us
+        </a>
+        <a href="#contact" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="mail" class="w-4 h-4 text-indigo-600"></i> Contact & Hours
+        </a>
+      </nav>
+
+      <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800" data-library-status>
+        <!-- Injected dynamic status -->
+      </div>
+    </div>
+
+    <div class="text-xs text-slate-400 text-center">
+      Gaya.Library, Veyangoda © 2026
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT CONTAINER (SPA Page Views) -->
+  <!-- ========================================================================= -->
+  <main class="flex-1">
+
+    <!-- ======================================================================= -->
+    <!-- PAGE 1: HOME -->
+    <!-- ======================================================================= -->
+    <section id="page-home" class="space-y-20 pb-20">
+      
+      <!-- HERO SECTION WITH FULL-SCREEN VIDEO BACKGROUND & 3D COVERFLOW -->
+      <div class="relative overflow-hidden min-h-[95vh] flex flex-col justify-center pt-12 pb-20 border-b border-slate-800 bg-[#0f172a]" style="background-color: #0f172a;">
+        
+        <!-- FULL-SCREEN HTML VIDEO BACKGROUND -->
+        <div class="hero-video-container" style="background-color: #0f172a;">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="https://images.unsplash.com/photo-1507842229458-577749e472f3?auto=format&fit=crop&q=80&w=1920"
+            class="hero-video-element">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-shelves-full-of-books-in-a-library-43389-large.mp4" type="video/mp4">
+          </video>
+          <!-- Semi-transparent dark overlay (rgba(15, 23, 42, 0.75)) ensuring all text is 100% visible -->
+          <div class="hero-video-overlay" style="background-color: rgba(15, 23, 42, 0.75);"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-4">
+          
+          <!-- Top Hero Intro & Typography -->
+          <div class="text-center max-w-4xl mx-auto space-y-5">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-md shadow-lg shadow-black/20">
+              <i data-lucide="crown" class="w-4 h-4 text-amber-400"></i>
+              <span class="tracking-wide font-medium">Sri Lankan Heritage & World Knowledge • Veyangoda, Sri Lanka</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-[1.18] drop-shadow-md">
+              The Timeless Sanctuary of <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">Sri Lankan</span> & Global Literature
+            </h1>
+
+            <p class="text-sm sm:text-base md:text-lg text-slate-200/90 font-sans max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-normal">
+              Immerse yourself in national masterworks by Martin Wickramasinghe, speculative fiction, systems architecture, and cosmic science. Borrow freely with zero late fees.
+            </p>
+
+            <!-- HERO SEARCH BAR FORM -->
+            <form id="hero-search-form" class="bg-slate-900/85 backdrop-blur-xl p-2 sm:p-2.5 rounded-2xl shadow-2xl shadow-black/50 border border-slate-700/80 flex flex-col sm:flex-row items-center gap-2 max-w-2xl mx-auto transition-all hover:border-amber-500/50">
+              <!-- Category Select Dropdown -->
+              <div class="w-full sm:w-auto flex items-center gap-2 px-3 py-2 border-b sm:border-b-0 sm:border-r border-slate-700/80">
+                <i data-lucide="layers" class="w-4 h-4 text-amber-400"></i>
+                <select id="hero-category-select" class="bg-transparent text-xs font-semibold text-slate-200 focus:outline-none cursor-pointer">
+                  <option value="All" class="bg-slate-900 text-white">All Categories</option>
+                  <option value="Fiction" class="bg-slate-900 text-white">Fiction & Heritage</option>
+                  <option value="Tech" class="bg-slate-900 text-white">Technology</option>
+                  <option value="Science" class="bg-slate-900 text-white">Science</option>
+                </select>
+              </div>
+
+              <!-- Input Field -->
+              <div class="flex-1 w-full flex items-center px-3 gap-2">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                <input type="text" id="hero-search-input" placeholder="Search Madol Duwa, Martin Wickramasinghe, System Design..." class="w-full bg-transparent text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none py-1">
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-amber-500/25 transition-all flex items-center justify-center gap-2">
+                <span>Explore</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </form>
+
+            <!-- Quick Suggestions -->
+            <div class="mt-4 flex items-center justify-center gap-2 flex-wrap text-xs text-slate-300">
+              <span class="text-slate-400 font-medium">Classics:</span>
+              <button type="button" onclick="Catalog.setCategory('Fiction'); Catalog.state.searchQuery='Madol Duwa'; Catalog.render(); App.navigateTo('catalog');" class="text-amber-300 hover:text-amber-200 underline font-medium">#MadolDuwa</button>
+              <button type="button" onclick="Catalog.setCategory('Fiction'); Catalog.state.searchQuery='Gamperaliya'; Catalog.render(); App.navigateTo('catalog');" class="text-amber-300 hover:text-amber-200 underline font-medium">#Gamperaliya</button>
+              <button type="button" onclick="Catalog.setCategory('Fiction'); Catalog.state.searchQuery='Viragaya'; Catalog.render(); App.navigateTo('catalog');" class="text-amber-300 hover:text-amber-200 underline font-medium">#Viragaya</button>
+              <button type="button" onclick="Catalog.setCategory('Tech'); App.navigateTo('catalog');" class="text-slate-300 hover:text-white underline">#SystemDesign</button>
+            </div>
+          </div>
+
+          <!-- 3D BOOK COVERFLOW CAROUSEL (SWIPER.JS) -->
+          <div class="mt-12 sm:mt-14 relative z-20 max-w-6xl mx-auto">
+            
+            <div class="flex items-center justify-between mb-2 px-4">
+              <div>
+                <span class="text-[11px] font-bold text-amber-400 uppercase tracking-widest font-mono">3D Interactive Exhibition</span>
+                <h3 class="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide">
+                  Sri Lankan & Global Rare Hardcovers
+                </h3>
+              </div>
+              <span class="text-xs text-slate-400 hidden sm:inline-flex items-center gap-1.5">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-amber-400"></i>
+                Drag or swipe to explore
+              </span>
+            </div>
+
+            <!-- Swiper Container with z-index: 20 -->
+            <div class="swiper book-coverflow-swiper relative z-20">
+              <div id="swiper-coverflow-wrapper" class="swiper-wrapper">
+                <!-- Slides dynamically populated by App.initCoverflowSwiper() -->
+              </div>
+
+              <!-- Swiper Standard Navigation Arrows -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+
+              <!-- Pagination Indicator Bullets -->
+              <div class="swiper-pagination mt-4"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STATS BAR SECTION -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 p-6 sm:p-8 shadow-sm">
+          <div id="home-stats-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-700/60">
+            <!-- Dynamically populated stats -->
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPLORE CATEGORIES SECTION -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">
+              <i data-lucide="compass" class="w-4 h-4"></i> Curated Collections
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Explore by Primary Genre</h2>
+          </div>
+          <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mt-2 md:mt-0">
+            Carefully categorized to help you quickly find compelling stories, technical masteries, or empirical investigations.
+          </p>
+        </div>
+
+        <div id="home-categories-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Dynamically populated category cards -->
+        </div>
+      </div>
+
+      <!-- TRENDING / FEATURED BOOKS GRID -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Top Circulating</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Trending on Our Shelves</h2>
+          </div>
+          <a href="#catalog" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+            View full catalog <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <div id="home-featured-books" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Dynamically populated featured books -->
+        </div>
+      </div>
+
+      <!-- LIBRARY AMENITIES & SERVICES -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-3xl bg-slate-900 text-white p-8 sm:p-12 relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10 max-w-2xl mb-10">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 mb-4 inline-block">
+              Modern Facilities
+            </span>
+            <h2 class="text-3xl font-bold tracking-tight mb-4">More Than Just Shelves of Books</h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              We provide state-of-the-art workstations, media pods, and quiet reading halls engineered for deep focus and learning.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+            <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 backdrop-blur-sm">
+              <div class="w-10 h-10 rounded-xl bg-indigo-600/30 text-indigo-400 flex items-center justify-center mb-3">
+                <i data-lucide="wifi" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-sm mb-1">Gigabit Fiber & Labs</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Dedicated coding docks with 4K monitors and high-speed research connections.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 backdrop-blur-sm">
+              <div class="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center mb-3">
+                <i data-lucide="volume-x" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-sm mb-1">Acoustic Quiet Pods</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">14 sound-isolated individual study pods available for reserve.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 backdrop-blur-sm">
+              <div class="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-400 flex items-center justify-center mb-3">
+                <i data-lucide="coffee" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-sm mb-1">Artisan Coffee Corner</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Local micro-roasters on Level 1 with open collaborative reading tables.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/80 backdrop-blur-sm">
+              <div class="w-10 h-10 rounded-xl bg-cyan-600/30 text-cyan-400 flex items-center justify-center mb-3">
+                <i data-lucide="sparkle" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-bold text-sm mb-1">Zero Late Fees</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Our equitable lending model ensures barrier-free education for the entire community.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- PAGE 2: CATALOG -->
+    <!-- ======================================================================= -->
+    <section id="page-catalog" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      
+      <!-- Catalog Page Header -->
+      <div id="catalog-section" class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Catalog & Inventory</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
+            Browse the Collection
+          </h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xl">
+            Filter by genre, search by title or author, and check physical availability in real-time.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- View switch buttons -->
+          <div class="flex items-center p-1 rounded-xl bg-slate-200/80 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700">
+            <button id="view-grid-btn" title="Grid View" class="p-2 rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400 transition-colors">
+              <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            </button>
+            <button id="view-list-btn" title="List View" class="p-2 rounded-lg text-slate-400 transition-colors">
+              <i data-lucide="list" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER & SEARCH TOOLBAR -->
+      <div class="glass-card p-5 rounded-2xl border border-slate-200/90 dark:border-slate-700/80 shadow-sm space-y-4">
+        
+        <!-- Search and Primary Category Row -->
+        <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+          
+          <!-- Category Tabs (Fiction, Tech, Science, All) -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+            <button data-category-filter="All" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-indigo-600 text-white shadow-md shadow-indigo-500/20 whitespace-nowrap">
+              All Books (<span data-category-count="All">20</span>)
+            </button>
+            <button data-category-filter="Fiction" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+              Fiction (<span data-category-count="Fiction">7</span>)
+            </button>
+            <button data-category-filter="Tech" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+              Technology (<span data-category-count="Tech">7</span>)
+            </button>
+            <button data-category-filter="Science" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+              Science (<span data-category-count="Science">6</span>)
+            </button>
+          </div>
+
+          <!-- Catalog Live Search Box -->
+          <div class="relative w-full lg:w-80">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="catalog-search-input" placeholder="Search title, author, ISBN..." class="w-full pl-10 pr-9 py-2.5 rounded-xl text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+            <button id="catalog-search-clear" title="Clear search" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Secondary Filters Row: Status & Sort -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-700/60">
+          
+          <div class="flex items-center gap-3 flex-wrap">
+            <!-- Availability Filter Dropdown -->
+            <div class="flex items-center gap-2">
+              <label for="filter-status" class="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap">Availability:</label>
+              <select id="filter-status" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer">
+                <option value="all">All Copies</option>
+                <option value="available">Available Now</option>
+                <option value="checked_out">Checked Out</option>
+                <option value="reserved">Reserved / Waitlist</option>
+              </select>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="flex items-center gap-2">
+              <label for="filter-sort" class="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap">Sort By:</label>
+              <select id="filter-sort" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer">
+                <option value="popular">Most Popular</option>
+                <option value="rating">Highest Rated</option>
+                <option value="newest">Publication Year (Newest)</option>
+                <option value="title">Title (A – Z)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Result Counter -->
+          <div id="catalog-results-count" class="text-xs font-bold text-slate-400">
+            20 books found
+          </div>
+
+        </div>
+
+        <!-- Active Filter Pills (Shown when filtered) -->
+        <div id="active-filters-chips" class="hidden"></div>
+
+      </div>
+
+      <!-- BOOKS LIST / GRID DISPLAY CONTAINER -->
+      <div id="books-catalog-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically by catalog.js -->
+      </div>
+
+      <!-- PAGINATION CONTROLS -->
+      <div id="catalog-pagination"></div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- PAGE 3: ABOUT -->
+    <!-- ======================================================================= -->
+    <section id="page-about" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+      
+      <!-- About Banner -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+          Our Heritage & Ethos
+        </span>
+        <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          A Sanctuary for Curiosity, Speculation & Rigor
+        </h1>
+        <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          Serving readers across Veyangoda and Sri Lanka, Gaya.Library bridges centuries of literature with cutting-edge open science and engineering. We believe intellectual discovery should be transparent, accessible, and fine-free.
+        </p>
+      </div>
+
+      <!-- Library Hours & Status Spotlight -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Operating Hours Card -->
+        <div class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700/80 p-8 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <i data-lucide="clock" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Operating Hours</h3>
+            </div>
+            <div data-library-status>
+              <!-- Dynamic status badge -->
+            </div>
+          </div>
+
+          <div class="divide-y divide-slate-100 dark:divide-slate-700/60 text-sm">
+            <div class="py-3 flex justify-between items-center">
+              <span class="font-medium text-slate-700 dark:text-slate-300">Monday – Thursday</span>
+              <span class="font-mono text-slate-900 dark:text-white font-semibold">8:00 AM – 9:00 PM</span>
+            </div>
+            <div class="py-3 flex justify-between items-center">
+              <span class="font-medium text-slate-700 dark:text-slate-300">Friday</span>
+              <span class="font-mono text-slate-900 dark:text-white font-semibold">8:00 AM – 8:00 PM</span>
+            </div>
+            <div class="py-3 flex justify-between items-center">
+              <span class="font-medium text-slate-700 dark:text-slate-300">Saturday</span>
+              <span class="font-mono text-slate-900 dark:text-white font-semibold">9:00 AM – 6:00 PM</span>
+            </div>
+            <div class="py-3 flex justify-between items-center">
+              <span class="font-medium text-slate-700 dark:text-slate-300">Sunday</span>
+              <span class="font-mono text-slate-900 dark:text-white font-semibold">11:00 AM – 5:00 PM</span>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center gap-2 text-xs text-slate-500">
+            <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+            <span>Holiday closures are announced 2 weeks prior via our digital newsletter.</span>
+          </div>
+        </div>
+
+        <!-- Floorplan Directory Guide -->
+        <div class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700/80 p-8 shadow-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Facility Directory</h3>
+          </div>
+
+          <div class="space-y-3.5 text-xs sm:text-sm">
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+              <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs flex-shrink-0">L4</span>
+              <div>
+                <strong class="text-slate-900 dark:text-white block">Floor 4: Astronomy, Physics & Life Sciences</strong>
+                <span class="text-slate-500 text-xs">Cosmology stacks, biological archives, and observatory terrace.</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+              <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-xs flex-shrink-0">L3</span>
+              <div>
+                <strong class="text-slate-900 dark:text-white block">Floor 3: Computer Science & Systems Engineering</strong>
+                <span class="text-slate-500 text-xs">Distributed systems stacks, hardware maker lab, and silent coding pods.</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+              <span class="w-7 h-7 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-xs flex-shrink-0">L2</span>
+              <div>
+                <strong class="text-slate-900 dark:text-white block">Floor 2: Fiction, Poetry & Speculative Novels</strong>
+                <span class="text-slate-500 text-xs">World literature, classic sci-fi collection, and reading armchairs.</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+              <span class="w-7 h-7 rounded-lg bg-amber-600 text-white font-bold flex items-center justify-center text-xs flex-shrink-0">L1</span>
+              <div>
+                <strong class="text-slate-900 dark:text-white block">Floor 1: Welcome Hub, Digital Lending Desk & Espresso</strong>
+                <span class="text-slate-500 text-xs">Card registration, circulation returns, and community meeting room.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FAQ ACCORDION -->
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+          <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Common Questions</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">Frequently Asked Questions</h2>
+        </div>
+
+        <div id="faqs-accordion-container" class="space-y-3">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- PAGE 4: CONTACT -->
+    <!-- ======================================================================= -->
+    <section id="page-contact" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+      
+      <!-- Contact Header -->
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+          Get in Touch
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          We’re Here to Help Your Research
+        </h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Have an inquiry, book recommendation, or want to reserve a seminar room? Reach out to our head librarians and staff.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- Contact Information Cards (Left) -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 shadow-sm flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="map-pin" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">Physical Location</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Main Street, Veyangoda<br>
+                Western Province, Sri Lanka
+              </p>
+              <span class="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold mt-2 inline-block">
+                Transit: Near Veyangoda Railway & Bus Junction
+              </span>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 shadow-sm flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="phone-call" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">Direct Inquiries</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Phone: <strong class="text-slate-800 dark:text-slate-100 font-bold">076 555 1111</strong><br>
+                International: +94 76 555 1111
+              </p>
+              <p class="text-xs text-indigo-600 dark:text-indigo-400 mt-1 font-mono font-semibold">
+                <a href="mailto:info@gaya.library.com" class="hover:underline">info@gaya.library.com</a> &bull; gaya.library.com
+              </p>
+            </div>
+          </div>
+
+          <!-- Transit & Parking Card -->
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 shadow-sm flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="car" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">Access & Amenities</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Easily accessible via Colombo-Kandy main rail corridor and express bus routes. Dedicated parking and bicycle racks on site.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Contact Form (Right) -->
+        <div class="lg:col-span-7 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700/80 p-8 shadow-sm">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Send Us a Direct Message</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+            Our librarians reply within 24 hours during standard operating days.
+          </p>
+
+          <form id="contact-us-form" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Full Name *</label>
+                <input type="text" name="name" required placeholder="Dr. Jane Doe" class="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Email Address *</label>
+                <input type="email" name="email" required placeholder="jane.doe@university.edu" class="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Subject Category *</label>
+              <select name="subject" required class="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 cursor-pointer">
+                <option value="General Inquiry">General Patron Inquiry</option>
+                <option value="Book Acquisition Request">Recommend a New Book Acquisition</option>
+                <option value="Study Room Booking">Reserve Study Pod or Media Lab</option>
+                <option value="Card & Membership">Digital Library Card Assistance</option>
+                <option value="Archival Research">Interlibrary Archival Loan</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Message / Request *</label>
+              <textarea name="message" required rows="5" placeholder="Please provide details regarding your inquiry, title recommendation, or room requirements..." class="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Message to Circulation Desk</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: BOOK DETAILS DIALOG -->
+  <!-- ========================================================================= -->
+  <div id="book-detail-modal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-backdrop flex items-center justify-center p-4">
+    <!-- Backdrop Click to Close -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="App.closeBookModal()"></div>
+
+    <!-- Modal Box -->
+    <div class="relative bg-white dark:bg-slate-850 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-2xl w-full overflow-hidden z-10 transition-all">
+      <!-- Close Button -->
+      <button onclick="App.closeBookModal()" class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white flex items-center justify-center transition-colors">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <!-- Dynamic Content Injection Target -->
+      <div id="book-detail-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OVER DRAWER: ACTIVE LOANS -->
+  <!-- ========================================================================= -->
+  <div id="loans-drawer-overlay" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="App.closeLoansDrawer()"></div>
+  <aside id="loans-drawer" class="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-96 bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between p-6">
+    <div>
+      <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Your Active Loans</h3>
+        </div>
+        <button onclick="App.closeLoansDrawer()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="loans-drawer-list" class="mt-4 space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
+      <p class="text-xs text-slate-400 mb-2">Standard borrowing limit: 10 items at once.</p>
+      <button onclick="App.closeLoansDrawer()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-200 transition-colors">
+        Continue Browsing
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OVER DRAWER: SAVED FAVORITES -->
+  <!-- ========================================================================= -->
+  <div id="favorites-drawer-overlay" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="App.closeFavoritesDrawer()"></div>
+  <aside id="favorites-drawer" class="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-96 bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between p-6">
+    <div>
+      <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i data-lucide="heart" class="w-5 h-5 text-rose-500 fill-rose-500"></i>
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Saved Reading List</h3>
+        </div>
+        <button onclick="App.closeFavoritesDrawer()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="favorites-drawer-list" class="mt-4 space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
+      <button onclick="App.closeFavoritesDrawer()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-200 transition-colors">
+        Back to Books
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        
+        <!-- Brand Info -->
+        <div class="lg:col-span-2 space-y-4">
+          <a href="#home" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
+              <i data-lucide="book-marked" class="w-4 h-4"></i>
+            </div>
+            <span class="text-base font-extrabold text-slate-900 dark:text-white">Gaya.Library</span>
+          </a>
+          <p class="text-slate-500 dark:text-slate-400 max-w-sm leading-relaxed">
+            A public repository of fiction, systems architecture, and natural sciences located in Veyangoda, Sri Lanka. Free community borrowing with zero fines.
+          </p>
+          <div class="flex items-center gap-3 text-slate-400">
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-indigo-600 transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-indigo-600 transition-colors"><i data-lucide="github" class="w-4 h-4"></i></a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-indigo-600 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-3">Navigation</h4>
+          <ul class="space-y-2">
+            <li><a href="#home" class="hover:text-indigo-600 transition-colors">Home Page</a></li>
+            <li><a href="#catalog" class="hover:text-indigo-600 transition-colors">Full Book Catalog</a></li>
+            <li><a href="#about" class="hover:text-indigo-600 transition-colors">Hours & Mission</a></li>
+            <li><a href="#contact" class="hover:text-indigo-600 transition-colors">Circulation Desk</a></li>
+          </ul>
+        </div>
+
+        <!-- Catalog Genres -->
+        <div>
+          <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-3">Categories</h4>
+          <ul class="space-y-2">
+            <li><button onclick="Catalog.setCategory('Fiction'); App.navigateTo('catalog');" class="hover:text-indigo-600 transition-colors text-left">Fiction & Novels</button></li>
+            <li><button onclick="Catalog.setCategory('Tech'); App.navigateTo('catalog');" class="hover:text-indigo-600 transition-colors text-left">Technology & Coding</button></li>
+            <li><button onclick="Catalog.setCategory('Science'); App.navigateTo('catalog');" class="hover:text-indigo-600 transition-colors text-left">Cosmology & Biology</button></li>
+            <li><button onclick="Catalog.resetFilters(); App.navigateTo('catalog');" class="hover:text-indigo-600 transition-colors text-left">All 15,000+ Titles</button></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter Subscription -->
+        <div>
+          <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-3">Literary Gazette</h4>
+          <p class="text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+            Bi-weekly book spotlights and author lectures straight to your inbox.
+          </p>
+          <form id="newsletter-form" class="space-y-2">
+            <input type="email" required placeholder="reader@gaya.library.com" class="w-full px-3 py-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+            <button type="submit" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors">
+              Subscribe Free
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
+        <p>© 2026 Gaya.Library, Veyangoda, Sri Lanka. Responsive Frontend Application.</p>
+        <div class="flex items-center gap-4">
+          <span class="hover:text-slate-600 dark:hover:text-slate-300">Privacy Policy</span>
+          <span>•</span>
+          <span class="hover:text-slate-600 dark:hover:text-slate-300">Terms of Borrowing</span>
+          <span>•</span>
+          <span class="hover:text-slate-600 dark:hover:text-slate-300">Accessibility</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- SCRIPTS -->
+  <!-- ========================================================================= -->
+  <!-- Swiper.js Bundle CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/books-data.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
